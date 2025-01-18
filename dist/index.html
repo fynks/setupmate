@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setupmate</title>
+<link rel="stylesheet" href="./styles.min.css">
+</head>
+<body>
+    <header class="header" role="banner">
+        <h1>Setupmate</h1>
+        <p id="headerDescription" class="visually-hidden">Track your system setup progress across different platforms</p>
+    </header>
+
+    <main class="container">
+        <nav class="platform-selector">
+            <button class="platform-btn active" data-platform="arch" aria-pressed="true">Arch Linux</button>
+            <button class="platform-btn" data-platform="android" aria-pressed="false">Android</button>
+            <button class="platform-btn" data-platform="windows" aria-pressed="false">Windows</button>
+        </nav>
+
+        <div class="progress" role="progressbar" aria-label="Completion Progress" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar"></div>
+        </div>
+
+        <section class="checklist-container" role="region" aria-label="Checklist Items">
+            <ul class="checklist" id="checklist" role="list" aria-live="polite">
+                <!-- Items rendered via JavaScript -->
+            </ul>
+        </section>
+
+        <form class="add-item-form" id="addItemForm" aria-label="Add New Checklist Item">
+            <label for="newItem">New Step:</label>
+            <input type="text" id="newItem" placeholder="Add new setup step..." aria-describedby="addItemHelp">
+            <div class="controls">
+                <button type="submit">Add Step</button>
+                <button type="button" class="secondary" id="resetButton">Reset Progress</button>
+                <button type="button" id="exportButton">Export JSON</button>
+                <input type="file" id="importFile" aria-label="Import checklist from JSON file">
+                <label for="importFile" class="button-like">Import JSON</label>
+            </div>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <p>Made with ❤️ by <a href="https://github.com/fynks" target="_blank" rel="noopener">Fynks</a></p>
+    </footer>
+<script src="./app.min.js"></script>
+</body>
+</html>

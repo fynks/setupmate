@@ -1,0 +1,14 @@
+{
+    "name": "setupmate",
+    "version": "1.0.0",
+    "description": "A tool to track your system setup progress across different platforms.",
+    "scripts": {
+      "build": "npm run minify",
+      "minify": "terser src/app.js -o dist/app.min.js && cleancss -o dist/styles.min.css src/styles.css"
+    },
+    "dependencies": {
+      "terser": "^5.37.0",
+      "clean-css-cli": "^5.6.3"
+    },
+    "author": "Fynks"
+  }
