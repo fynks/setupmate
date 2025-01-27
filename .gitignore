@@ -1,1 +1,3 @@
 /node_modules
+/dist/app-min.js
+/dist/styles.min.css
