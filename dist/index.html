@@ -9,58 +9,254 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Setupmate" />
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#6366f1">
     <meta name="robots" content="noindex">
-    <title>Setupmate</title>
+    <title>Setupmate - Professional Setup Tracker</title>
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="./styles.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="./app.min.js" defer></script>
 </head>
 
 <body>
-    <header class="header" role="banner">
-        <h1>Setupmate</h1>
-        <p id="headerDescription" class="visually-hidden">Track your system setup progress across different platforms
-        </p>
+    <!-- Background Elements -->
+    <div class="bg-decoration">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        <div class="bg-circle bg-circle-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <i data-lucide="check-circle" class="logo-icon"></i>
+                    <h1>Setupmate</h1>
+                </div>
+                <p class="header-subtitle">Professional Setup Tracker</p>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i data-lucide="sun" class="theme-icon light-icon"></i>
+                    <i data-lucide="moon" class="theme-icon dark-icon"></i>
+                </button>
+                <button class="search-toggle" id="searchToggle" aria-label="Toggle search">
+                    <i data-lucide="search"></i>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <main class="container">
-        <nav class="platform-selector">
-            <button class="platform-btn active" data-platform="arch" aria-pressed="true">Arch Linux</button>
-            <button class="platform-btn" data-platform="android" aria-pressed="false">Android</button>
-            <button class="platform-btn" data-platform="windows" aria-pressed="false">Windows</button>
-        </nav>
-
-        <div class="progress" role="progressbar" aria-label="Completion Progress" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar"></div>
+    <!-- Search Bar -->
+    <div class="search-container" id="searchContainer">
+        <div class="search-box">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Search setup steps..." aria-label="Search checklist items">
+            <button class="search-clear" id="searchClear" aria-label="Clear search">
+                <i data-lucide="x"></i>
+            </button>
         </div>
+    </div>
 
-        <section class="checklist-container" role="region" aria-label="Checklist Items">
-            <ul class="checklist" id="checklist" role="list" aria-live="polite">
-                <!-- Items rendered via JavaScript -->
-            </ul>
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Platform Selector -->
+        <section class="platform-section">
+            <h2 class="section-title">Choose Platform</h2>
+            <div class="platform-selector">
+                <button class="platform-btn active" data-platform="arch" aria-pressed="true">
+                    <i data-lucide="monitor" class="platform-icon"></i>
+                    <span class="platform-name">Arch Linux</span>
+                    <span class="platform-count" id="archCount">0</span>
+                </button>
+                <button class="platform-btn" data-platform="android" aria-pressed="false">
+                    <i data-lucide="smartphone" class="platform-icon"></i>
+                    <span class="platform-name">Android</span>
+                    <span class="platform-count" id="androidCount">0</span>
+                </button>
+                <button class="platform-btn" data-platform="windows" aria-pressed="false">
+                    <i data-lucide="laptop" class="platform-icon"></i>
+                    <span class="platform-name">Windows</span>
+                    <span class="platform-count" id="windowsCount">0</span>
+                </button>
+            </div>
         </section>
 
-        <form class="add-item-form" id="addItemForm" aria-label="Add New Checklist Item">
-            <label for="newItem">New Step:</label>
-            <input type="text" id="newItem" placeholder="Add new setup step..." aria-describedby="addItemHelp">
-            <div class="controls">
-                <button type="submit">Add Step</button>
-                <button type="button" class="secondary" id="resetButton">Reset Progress</button>
-                <button type="button" id="exportButton">Export JSON</button>
-                <input type="file" id="importFile" aria-label="Import checklist from JSON file">
-                <label for="importFile" class="button-like">Import JSON</label>
+        <!-- Statistics -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i data-lucide="target"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalSteps">0</div>
+                        <div class="stat-label">Total Steps</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon completed">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="completedSteps">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="pendingSteps">0</div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon progress">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="progressPercentage">0%</div>
+                        <div class="stat-label">Progress</div>
+                    </div>
+                </div>
             </div>
-        </form>
+        </section>
+
+        <!-- Progress Bar -->
+        <section class="progress-section">
+            <div class="progress-header">
+                <h3 class="progress-title">Setup Progress</h3>
+                <div class="progress-actions">
+                    <button class="filter-btn" id="filterAll" data-filter="all">All</button>
+                    <button class="filter-btn" id="filterCompleted" data-filter="completed">Completed</button>
+                    <button class="filter-btn" id="filterPending" data-filter="pending">Pending</button>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 of 0 steps completed</div>
+            </div>
+        </section>
+
+        <!-- Checklist Container -->
+        <section class="checklist-section">
+            <div class="checklist-header">
+                <h3 class="section-title">Setup Checklist</h3>
+                <button class="add-item-btn" id="quickAddBtn">
+                    <i data-lucide="plus"></i>
+                    Add Step
+                </button>
+            </div>
+            <div class="checklist-container">
+                <ul class="checklist" id="checklist" role="list" aria-live="polite">
+                    <!-- Items rendered via JavaScript -->
+                </ul>
+                <div class="empty-state" id="emptyState">
+                    <i data-lucide="clipboard-list" class="empty-icon"></i>
+                    <h3>No items found</h3>
+                    <p>Add your first setup step to get started</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Item Form -->
+        <div class="add-item-modal" id="addItemModal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add New Step</h3>
+                    <button class="modal-close" id="modalClose">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <form class="add-item-form" id="addItemForm">
+                    <div class="form-group">
+                        <label for="newItem">Step Description</label>
+                        <input type="text" id="newItem" placeholder="Describe your setup step..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stepCategory">Category (Optional)</label>
+                        <select id="stepCategory">
+                            <option value="">Select category</option>
+                            <option value="installation">Installation</option>
+                            <option value="configuration">Configuration</option>
+                            <option value="backup">Backup</option>
+                            <option value="login">Login/Auth</option>
+                            <option value="customization">Customization</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelAdd">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Step</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <section class="controls-section">
+            <div class="controls-grid">
+                <button class="control-btn" id="resetButton">
+                    <i data-lucide="rotate-ccw"></i>
+                    Reset Progress
+                </button>
+                <button class="control-btn" id="exportButton">
+                    <i data-lucide="download"></i>
+                    Export Data
+                </button>
+                <label class="control-btn" for="importFile">
+                    <i data-lucide="upload"></i>
+                    Import Data
+                </label>
+                <input type="file" id="importFile" accept=".json" hidden>
+                <button class="control-btn" id="shareButton">
+                    <i data-lucide="share"></i>
+                    Share
+                </button>
+            </div>
+        </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
-        <p>Made with ❤️ by <a href="https://github.com/fynks" target="_blank" rel="noopener">Fynks</a></p>
+        <div class="footer-content">
+            <p>Made with ❤️ by <a href="https://github.com/fynks" target="_blank" rel="noopener">Fynks</a></p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Support</a>
+            </div>
+        </div>
     </footer>
 
+    <!-- Notifications -->
+    <div class="notification-container" id="notifications"></div>
+
+    <!-- Scripts -->
     <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('sw.js')
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                }).catch(function(err) {
+                    console.log('ServiceWorker registration failed');
+                });
+            });
         }
     </script>
 </body>
