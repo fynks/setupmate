@@ -722,26 +722,18 @@
             border-radius: var(--radius-sm);
             cursor: pointer;
             position: relative;
-            appearance: none;
+            -webkit-appearance: checkbox;
+            appearance: auto;
+            accent-color: var(--success);
             transition: all var(--transition-normal);
         }
-
+        
         .checklist-item input[type="checkbox"]:checked {
+            /* keep the green background and border when checked */
             background: var(--success);
             border-color: var(--success);
         }
-
-        .checklist-item input[type="checkbox"]:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
+        
         .item-text {
             flex: 1;
             font-size: 0.875rem;
