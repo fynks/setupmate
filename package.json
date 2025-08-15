@@ -7,7 +7,7 @@
       "minify": "terser src/app.js -o dist/app.min.js && cleancss -o dist/styles.min.css src/styles.css"
     },
     "dependencies": {
-      "terser": "^5.37.0",
+      "terser": "^5.43.1",
       "clean-css-cli": "^5.6.3"
     },
     "author": "Fynks"
